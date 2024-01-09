@@ -1,0 +1,97 @@
+﻿<Window x:Class="wally.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:wally"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid RenderTransformOrigin="0.559,0.64">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <!-- Header -->
+            <RowDefinition Height="*"/>
+            <!-- Body with two columns -->
+            <RowDefinition Height="20"/>
+            <!-- Footer -->
+        </Grid.RowDefinitions>
+        
+        <!--Header-->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="75*"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle Grid.Column="0" Fill="AliceBlue"/>
+            <Rectangle Grid.Column="1" Fill="Bisque"/>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <RadioButton Content="Library" Width="100" GroupName="UserOptions" Checked="RadioButton_Checked"/>
+                <RadioButton Content="Store" Width="100" GroupName="UserOptions" Checked="RadioButton_Checked"/>
+            </StackPanel>
+
+            <!--There should be some other content here-->
+            <TextBlock Grid.Column="1" Text="There should be some options here" FontSize="24" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+        </Grid>
+
+        <!--This will be the content of the body -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25*" />
+                <ColumnDefinition Width="75*"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle Grid.Column="0" Fill="LightBlue"/>
+
+            <StackPanel Grid.Column="0"> <!--This one should change based on the radio button-->
+                <ListBox x:Name="ListBoxLibrary" SelectionMode="Single" Visibility="Visible">
+                    <ListBoxItem  Content="Your wallpaper Nature"/>
+                    <ListBoxItem Content="Your wallpaper Anime"/>
+                    <ListBoxItem Content="Your wallpaper Sport"/>
+                </ListBox>
+            </StackPanel>
+            <StackPanel Grid.Column="0">
+                <!--This one should change based on the radio button-->
+                <ListBox x:Name="ListBoxStore" SelectionMode="Single" Visibility="Collapsed">
+                    <ListBoxItem  Content="Nature"/>
+                    <ListBoxItem Content="Anime"/>
+                    <ListBoxItem Content="Sport"/>
+                </ListBox>
+            </StackPanel>
+            <ItemsControl Grid.Column="1" ItemsSource="{Binding Wallpapers}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <!-- Adjust the width as needed for your content -->
+                                <ColumnDefinition Width="*"/>
+                                <!-- Adjust the width as needed for your content -->
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0" Background="Black">
+                                <!-- Image for the wallpaper preview -->
+                                <Image Source="C:\Users\User\pythonProject\personalProject\personalWebsite\static\sunset.jpg" Stretch="UniformToFill"/>
+                            </Border>
+
+                            <!-- Additional content for the wallpaper (if any) -->
+                            <TextBlock Text="Sunset" Grid.Column="1"/>
+                            <!-- Add more controls as needed -->
+
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+        
+        <!-- Your content goes here -->
+        <!-- For example, a TextBlock in the first column and a TextBox in the second column -->
+        
+
+        <!-- Content in the body row with two columns -->
+        
+       
+
+        <TextBlock Grid.Row="2" Text="Footer Content"/>
+
+    </Grid>
+</Window>
