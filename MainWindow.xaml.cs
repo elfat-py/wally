@@ -11,9 +11,6 @@ using System.Windows.Shapes;
 
 namespace wally
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -29,7 +26,7 @@ namespace wally
             ListBoxLibrary.Visibility = Visibility.Collapsed;
             ListBoxStore.Visibility = Visibility.Collapsed;
 
-            // Show the specific ListBox based on the selected RadioButton
+            // show the specific listbox based on the selected radiobutton
             if (radioButton.Content.ToString() == "Library")
             {
                 ListBoxLibrary.Visibility = Visibility.Visible;
@@ -41,7 +38,11 @@ namespace wally
 
         }
 
-       
+        private void ImageCell01_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            
+
+        }
     }
     
 }

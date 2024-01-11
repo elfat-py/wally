@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:wally"
         mc:Ignorable="d"
+        xmlns:userControls="clr-namespace:wally.Views.UserControls"
         Title="MainWindow" Height="450" Width="800">
+
     <Grid RenderTransformOrigin="0.559,0.64">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -15,7 +16,7 @@
             <RowDefinition Height="20"/>
             <!-- Footer -->
         </Grid.RowDefinitions>
-        
+
         <!--Header-->
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -41,14 +42,16 @@
                 <ColumnDefinition Width="75*"/>
             </Grid.ColumnDefinitions>
             <Rectangle Grid.Column="0" Fill="LightBlue"/>
-
-            <StackPanel Grid.Column="0"> <!--This one should change based on the radio button-->
+            <!--Add here   <userControls:Menu/>-->
+            <StackPanel Grid.Column="0">
+                <!--This one should change based on the radio button-->
                 <ListBox x:Name="ListBoxLibrary" SelectionMode="Single" Visibility="Visible">
                     <ListBoxItem  Content="Your wallpaper Nature"/>
                     <ListBoxItem Content="Your wallpaper Anime"/>
                     <ListBoxItem Content="Your wallpaper Sport"/>
                 </ListBox>
             </StackPanel>
+
             <StackPanel Grid.Column="0">
                 <!--This one should change based on the radio button-->
                 <ListBox x:Name="ListBoxStore" SelectionMode="Single" Visibility="Collapsed">
@@ -57,39 +60,57 @@
                     <ListBoxItem Content="Sport"/>
                 </ListBox>
             </StackPanel>
-            <ItemsControl Grid.Column="1" ItemsSource="{Binding Wallpapers}">
+
+
+            <!--<ItemsControl ItemsSource="{Binding Wallpapers}" Grid.Column="1">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
-                                <!-- Adjust the width as needed for your content -->
+                                --><!-- Adjust the width as needed for your content --><!--
                                 <ColumnDefinition Width="*"/>
-                                <!-- Adjust the width as needed for your content -->
+                                --><!-- Adjust the width as needed for your content --><!--
                             </Grid.ColumnDefinitions>
 
                             <Border Grid.Column="0" Background="Black">
-                                <!-- Image for the wallpaper preview -->
+                                --><!-- Image for the wallpaper preview --><!--
                                 <Image Source="C:\Users\User\pythonProject\personalProject\personalWebsite\static\sunset.jpg" Stretch="UniformToFill"/>
                             </Border>
 
-                            <!-- Additional content for the wallpaper (if any) -->
+                            --><!-- Additional content for the wallpaper (if any) --><!--
                             <TextBlock Text="Sunset" Grid.Column="1"/>
-                            <!-- Add more controls as needed -->
+                            --><!-- Add more controls as needed --><!--
 
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            </ItemsControl>-->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Image x:Name="ImageCell00" Grid.Row="0" Grid.Column="0" Source="C:\Users\User\source\repos\wally\Resources\beautifulWallpaper.jpg" Stretch="UniformToFill" />
+                <Image x:Name="ImageCell01" Grid.Row="0" Grid.Column="1" Source="C:\Users\User\source\repos\wally\Resources\citySunset.jpg" Stretch="UniformToFill" />
+                <Image x:Name="ImageCell10" Grid.Row="1" Grid.Column="0" Source="C:\Users\User\source\repos\wally\Resources\testCase.jpg" Stretch="UniformToFill" />
+                <Image x:Name="ImageCell11" Grid.Row="1" Grid.Column="1" Source="C:\Users\User\source\repos\wally\Resources\mountains.jpg" Stretch="UniformToFill" />
+
+            </Grid>
         </Grid>
-        
+       
+
         <!-- Your content goes here -->
         <!-- For example, a TextBlock in the first column and a TextBox in the second column -->
-        
+
 
         <!-- Content in the body row with two columns -->
-        
-       
+
+
 
         <TextBlock Grid.Row="2" Text="Footer Content"/>
 
