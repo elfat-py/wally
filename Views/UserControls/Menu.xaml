@@ -7,23 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <StackPanel Grid.Column="0">
-            <!--This one should change based on the radio button-->
-            <ListBox x:Name="ListBoxLibrary" SelectionMode="Single" Visibility="Visible">
-                <ListBoxItem  Content="Your wallpaper Nature"/>
-                <ListBoxItem Content="Your wallpaper Anime"/>
-                <ListBoxItem Content="Your wallpaper Sport"/>
-            </ListBox>
-        </StackPanel>
-
-        <StackPanel Grid.Column="0">
-            <!--This one should change based on the radio button-->
-            <ListBox x:Name="ListBoxStore" SelectionMode="Single" Visibility="Collapsed">
-                <ListBoxItem  Content="Nature"/>
-                <ListBoxItem Content="Anime"/>
-                <ListBoxItem Content="Sport"/>
-            </ListBox>
-        </StackPanel>
+        <TextBlock Text="Hello world"/>
 
     </Grid>
 </UserControl>

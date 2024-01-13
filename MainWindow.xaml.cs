@@ -16,6 +16,24 @@ namespace wally
         public MainWindow()
         {
             InitializeComponent();
+            var imagePaths = new List<string>
+            {
+                "C:\\Users\\User\\source\\repos\\wally\\Resources\\beautifulWallpaper.jpg",
+                "C:\\Users\\User\\source\\repos\\wally\\Resources\\citySunset.jpg",
+                "C:\\Users\\User\\source\\repos\\wally\\Resources\\beautifulWallpaper.jpg",
+                "C:\\Users\\User\\source\\repos\\wally\\Resources\\citySunset.jpg",
+
+            };
+
+            ImagesItemsControl.ItemsSource = imagePaths;
+            foreach(var imagePath in imagePaths)
+            {
+                var image = new Image
+                {
+                    Source = new BitmapImage(new Uri(imagePath)),
+                    Stretch = Stretch.UniformToFill
+                };
+            }
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -38,11 +56,7 @@ namespace wally
 
         }
 
-        private void ImageCell01_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            
-
-        }
+        
     }
     
 }
