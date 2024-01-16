@@ -48,10 +48,10 @@
            
             <StackPanel Grid.Column="0" VerticalAlignment="Stretch">
                 <!--This one should change based on the radio button-->
-                <ListBox x:Name="ListBoxLibrary" SelectionMode="Single" Visibility="Visible" Margin="3 4 5 5" HorizontalAlignment="Stretch">
+                <ListBox x:Name="ListBoxLibrary" SelectionMode="Single" Visibility="Visible" Margin="3 4 5 5" HorizontalAlignment="Stretch" SelectionChanged="ListBoxLibrary_SelectionChanged">
 
                     <!--All (This one should be a bit special)-->
-                    <ListBoxItem VerticalAlignment="Center">
+                    <ListBoxItem VerticalAlignment="Center" x:Name="All">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="C:\Users\User\source\repos\wally\Resources\icons\home1.png" Width="20" Height="20"  Margin="30 20 30 10"/>
                             <TextBlock Text="All" Margin="0 20 30 10" HorizontalAlignment="Right" FontSize="16" FontWeight="ExtraLight" />
@@ -59,7 +59,7 @@
                     </ListBoxItem>
                     
                     <!--Animals-->
-                    <ListBoxItem VerticalAlignment="Center">
+                    <ListBoxItem VerticalAlignment="Center" x:Name="Animals">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="C:\Users\User\source\repos\wally\Resources\icons\animals.png" Width="20" Height="20" Margin="30 20 10 10"/>
                             <TextBlock Text="Animals" Margin=" 10" HorizontalAlignment="Right" FontSize="16" FontWeight="ExtraLight" />
@@ -67,7 +67,7 @@
                     </ListBoxItem>
                     
                     <!--Artwork-->
-                    <ListBoxItem VerticalAlignment="Center">
+                    <ListBoxItem VerticalAlignment="Center" x:Name="Artwork">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="C:\Users\User\source\repos\wally\Resources\icons\artwork.png" Width="20" Height="20" Margin="30 20 10 10"/>
                             <TextBlock Text="Artwork" Margin="3 15 5 5" HorizontalAlignment="Right" FontSize="16" FontWeight="ExtraLight" />
@@ -75,7 +75,7 @@
                     </ListBoxItem>
                    
                     <!--Game-->
-                    <ListBoxItem VerticalAlignment="Center">
+                    <ListBoxItem VerticalAlignment="Center" x:Name="Game">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="C:\Users\User\source\repos\wally\Resources\icons\game.png" Width="20" Height="20" Margin="30 20 10 10"/>
                             <TextBlock Text="Gaming" Margin="3 15 5 5" HorizontalAlignment="Right" FontSize="16" FontWeight="ExtraLight" />
@@ -83,7 +83,7 @@
                     </ListBoxItem>
                     
                     <!--Motivation-->
-                    <ListBoxItem VerticalAlignment="Center">
+                    <ListBoxItem VerticalAlignment="Center" x:Name="Motivation">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="C:\Users\User\source\repos\wally\Resources\icons\motivation.png" Width="20" Height="20" Margin="30 20 10 10"/>
                             <TextBlock Text="Motivation" Margin="3 15 5 5" HorizontalAlignment="Right" FontSize="16" FontWeight="ExtraLight" />
@@ -91,7 +91,7 @@
                     </ListBoxItem>
                     
                     <!--Music-->
-                    <ListBoxItem VerticalAlignment="Center">
+                    <ListBoxItem VerticalAlignment="Center" x:Name="Music">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="C:\Users\User\source\repos\wally\Resources\icons\music.png" Width="20" Height="20" Margin="30 20 10 10"/>
                             <TextBlock Text="Music" Margin="3 15 5 5" HorizontalAlignment="Right" FontSize="16" FontWeight="ExtraLight" />
@@ -99,7 +99,7 @@
                     </ListBoxItem>
                     
                     <!--Nature-->
-                    <ListBoxItem VerticalAlignment="Center">
+                    <ListBoxItem VerticalAlignment="Center" x:Name="Nature">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="C:\Users\User\source\repos\wally\Resources\icons\nature.png" Width="20" Height="20" Margin="30 20 10 10"/>
                             <TextBlock Text="Nature" Margin="3 15 5 5" HorizontalAlignment="Right" FontSize="16" FontWeight="ExtraLight" />
@@ -108,14 +108,14 @@
 
                     <!--Holiday-->
                     <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" x:Name="Holiday">
                             <Image Source="C:\Users\User\source\repos\wally\Resources\icons\holiday.png" Width="20" Height="20" Margin="30 20 10 10"/>
                             <TextBlock Text="Holiday" Margin="3 15 5 5" HorizontalAlignment="Center" FontSize="16" FontWeight="ExtraLight"/>
                         </StackPanel>
                     </ListBoxItem>
 
                     <!--Space-->
-                    <ListBoxItem VerticalAlignment="Center">
+                    <ListBoxItem VerticalAlignment="Center" x:Name="Space">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="C:\Users\User\source\repos\wally\Resources\icons\space.png" Width="20" Height="20" Margin="30 20 10 10"/>
                             <TextBlock Text="Space" Margin="3 15 5 5" HorizontalAlignment="Right" FontSize="16" FontWeight="ExtraLight" />
@@ -123,7 +123,7 @@
                     </ListBoxItem>
                     
                     <!--Tech-->
-                    <ListBoxItem VerticalAlignment="Center">
+                    <ListBoxItem VerticalAlignment="Center" x:Name="Tech">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="C:\Users\User\source\repos\wally\Resources\icons\tech.png" Width="20" Height="20" Margin="30 20 10 10"/>
                             <TextBlock Text="Tech" Margin="3 15 5 5" HorizontalAlignment="Right" FontSize="16" FontWeight="ExtraLight" />
@@ -131,7 +131,7 @@
                     </ListBoxItem>
                     
                     <!--Lifestyle-->
-                    <ListBoxItem>
+                    <ListBoxItem VerticalAlignment="Center" x:Name="Lifestyle">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="C:\Users\User\source\repos\wally\Resources\icons\lifestyle.png" Width="20" Height="20" Margin="30 20 10 10"/>
                             <TextBlock Text="Lifestyle" Margin="3 15 5 5" HorizontalAlignment="Center" FontSize="16" FontWeight="ExtraLight"/>
@@ -139,7 +139,7 @@
                     </ListBoxItem>
                     
                     <!--Anime-->
-                    <ListBoxItem>
+                    <ListBoxItem VerticalAlignment="Center" x:Name="Anime">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="C:\Users\User\source\repos\wally\Resources\icons\anime.png" Width="20" Height="20" Margin="30 20 10 10"/>
                             <TextBlock Text="Anime" Margin="3 15 5 5" HorizontalAlignment="Center" FontSize="16" FontWeight="ExtraLight"/>
@@ -147,7 +147,7 @@
                     </ListBoxItem>
                     
                     <!--Food-->
-                    <ListBoxItem>
+                    <ListBoxItem VerticalAlignment="Center" x:Name="Food">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="C:\Users\User\source\repos\wally\Resources\icons\food.png" Width="20" Height="20" Margin="30 20 10 10"/>
                             <TextBlock Text="Food" Margin="3 15 5 5" HorizontalAlignment="Center" FontSize="16" FontWeight="ExtraLight"/>
@@ -155,23 +155,15 @@
                     </ListBoxItem>
                     
                     <!--Weather-->
-                    <ListBoxItem>
+                    <ListBoxItem VerticalAlignment="Center" x:Name="Weather">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="C:\Users\User\source\repos\wally\Resources\icons\weather.png" Width="20" Height="20" Margin="30 20 10 10"/>
                             <TextBlock Text="Weather" Margin="3 15 5 5" HorizontalAlignment="Center" FontSize="16" FontWeight="ExtraLight"/>
                         </StackPanel>
                     </ListBoxItem>
-
-                    <!--Space-->
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="C:\Users\User\source\repos\wally\Resources\icons\space.png" Width="20" Height="20" Margin="30 20 10 10"/>
-                            <TextBlock Text="Space" Margin="3 15 5 5" HorizontalAlignment="Center" FontSize="16" FontWeight="ExtraLight"/>
-                        </StackPanel>
-                    </ListBoxItem>
                     
                     <!--Cars-->
-                    <ListBoxItem>
+                    <ListBoxItem VerticalAlignment="Center" x:Name="Cars">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="C:\Users\User\source\repos\wally\Resources\icons\cars.png" Width="20" Height="20" Margin="30 20 10 10"/>
                             <TextBlock Text="Cars" Margin="3 15 5 5" HorizontalAlignment="Center" FontSize="16" FontWeight="ExtraLight"/>
@@ -179,7 +171,7 @@
                     </ListBoxItem>
 
                     <!--Film-->
-                    <ListBoxItem>
+                    <ListBoxItem VerticalAlignment="Center" x:Name="Film">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="C:\Users\User\source\repos\wally\Resources\icons\film1.png" Width="20" Height="20" Margin="30 20 10 10"/>
                             <TextBlock Text="Anime" Margin="3 15 5 5" HorizontalAlignment="Center" FontSize="16" FontWeight="ExtraLight"/>
@@ -198,20 +190,48 @@
                 </ListBox>
             </StackPanel>
 
-            <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
-                <ItemsControl x:Name="ImagesItemsControl">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="2" />
-                            <!-- Change the number of columns based on your needs -->
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding}" Stretch="UniformToFill"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+            <ScrollViewer
+                Grid.Column="1"
+                VerticalScrollBarVisibility="Auto"
+                CanContentScroll="True"
+                PanningMode="Both"
+                PanningDeceleration="0.5"
+                PanningRatio="1.1"
+                >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!-- StackPanel 1 -->
+                    <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" Margin="5">
+                        <ListBox Name="ListBoxStackPanel1" SelectionMode="Single" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Black" BorderThickness="1" Margin="5">
+                                        <Image Source="{Binding imageUrl}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Border>
+
+                    <!-- StackPanel 2 -->
+                    <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1" Margin="5">
+                        <ListBox Name="ListBoxStackPanel2" SelectionMode="Single">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Black" BorderThickness="1" Margin="5">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="{Binding imageUrl}" Width="60" Height="40"  />
+                                        </StackPanel>
+                                        
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Border>
+                </Grid>
             </ScrollViewer>
         </Grid>
        
