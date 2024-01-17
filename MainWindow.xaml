@@ -218,14 +218,13 @@
 
                     <!-- StackPanel 2 -->
                     <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1" Margin="5">
-                        <ListBox Name="ListBoxStackPanel2" SelectionMode="Single">
+                        <ListBox Name="ListBoxStackPanel2" SelectionMode="Single" SelectionChanged="ListBoxStackPanel2_SelectionChanged">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border BorderBrush="Black" BorderThickness="1" Margin="5">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="{Binding ImageUrlPath}"  Width="340" Height="200"  />
                                         </StackPanel>
-                                        
                                     </Border>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>

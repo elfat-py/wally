@@ -1,16 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Newtonsoft.Json;
 using PexelsDotNetSDK.Api;
 
@@ -23,6 +13,59 @@ namespace wally
             InitializeComponent();
             InitializeAsync("HD Wallpapers");
         }
+        private async void InitializeAsync(string query)//Should pass the query here
+        {
+            int defineColumn = 1;
+            ApiLogic connect = new ApiLogic();
+            List<ImagesCollectionUrl> ImageUrlPath = await connect.JsonConnection(query);
+
+            foreach (ImagesCollectionUrl imageUrl in ImageUrlPath)
+            {
+                ListBoxStackPanel1.ItemsSource = ImageUrlPath;
+                if (defineColumn % 2 == 0)
+                {
+                    ListBoxStackPanel1.ItemsSource = ImageUrlPath;
+                    defineColumn++;
+                }
+                else
+                {
+                    //we may are going to need to use listview instead of image stack
+                    ListBoxStackPanel2.ItemsSource = ImageUrlPath;
+                    defineColumn++;
+                }
+            }
+        }
+
+        private void ListBoxStackPanel2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ImagesCollectionUrl selectedImage = (ImagesCollectionUrl)ListBoxStackPanel2.SelectedItem;
+            string imageUrl = selectedImage.ImageUrlPath;
+
+
+            SaveWallpaper(imageUrl);
+            // Do something with the imageUrl, such as displaying additional information
+            MessageBox.Show($"Selected Image URL: {imageUrl}");
+
+        }
+
+
+        private void SaveWallpaper(string imageUrl)
+        {
+            string directoryPath = @"C:\Users\User\source\repos\wally\Resources\SavedWallpapersWalli\";
+            Uri uri = new Uri(imageUrl);
+            string customFileName = "saved_success.jpg";
+            string fileName = Path.GetFileName(uri.LocalPath);
+            string fullPath = Path.Combine(directoryPath, customFileName);
+            using (System.Net.WebClient client = new System.Net.WebClient())
+            {
+                client.DownloadFile(imageUrl, fullPath);
+            }
+        }
+        public class ImagesCollectionUrl
+        {
+            public string ImageUrlPath { get; set; }
+        }
+
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -98,57 +141,14 @@ namespace wally
                 }
             }
         }
-        private async void InitializeAsync(string query)//Should pass the query here
-        {
-            int defineColumn = 1;
-            ApiLogic connect = new ApiLogic();      
-            List<ImagesCollectionUrl> ImageUrlPath = await connect.JsonConnection(query);
+        
 
-            foreach(ImagesCollectionUrl imageUrl in ImageUrlPath)
-            {
-                ListBoxStackPanel1.ItemsSource = ImageUrlPath;
-                if (defineColumn % 2 == 0)
-                {
-                    ListBoxStackPanel1.ItemsSource = ImageUrlPath;
-                    defineColumn++;
-                }
-                else
-                {
-                    //we may are going to need to use listview instead of image stack
-                    ListBoxStackPanel2.ItemsSource = ImageUrlPath;
-                    defineColumn++;
-                }
-            }
-        }
+        //class ImagesCollectionUrl
+        //{
+        //    public string ImageUrlPath { get; set; }
+        //}
 
-        class ImagesCollectionUrl
-        {
-            public required string ImageUrlPath { get; set; }
-        }
-
-        private void loadpreviewimages(List<ImagesCollectionUrl>ImageUrlPath)
-        {
-            int definecolumn = 1;
-            foreach (var imageUrl in ImageUrlPath)
-            {
-                // create a new image control
-                Image imagecontrol = new Image();
-
-                // create a bitmapimage and set its urisource to the image url
-                BitmapImage bitmapimage = new BitmapImage();
-                bitmapimage.BeginInit();
-                //bitmapimage.urisource = new uri(imageurl);
-                bitmapimage.UriSource = new Uri(imageUrl.ImageUrlPath);
-                bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapimage.EndInit();
-
-                imagecontrol.Source = bitmapimage;
-
-                
-               
-                
-            }
-        }
+        
 
         class ApiLogic
         {
