@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -20,18 +21,7 @@ namespace wally
         public MainWindow()
         {
             InitializeComponent();
-            //List<ImagesUrls> list = new List<ImagesUrls>();
-            //list.Add(new ImagesUrls()
-            //{
-            //    imageUrl = @"https://images.pexels.com/photos/576739/pexels-photo-576739.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
-            //});
-            //list.Add(new ImagesUrls()
-            //{
-            //    imageUrl = @"https://images.pexels.com/photos/576739/pexels-photo-576739.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
-            //});
-
-           // ListBoxStackPanel1.ItemsSource = list;
-            InitializeAsync("Nature");
+            InitializeAsync("HD Wallpapers");
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -64,98 +54,113 @@ namespace wally
                 // Perform action based on the selected item
                 switch (selectedItem.Name)
                 {
-                    case "All":                     
+                    case "All":
+                        InitializeAsync("HD Wallpapers");
                         break;
                     case "Animals":                       
-                        InitializeAsync("Nature");
+                        InitializeAsync("Animals");
                         break;
                     case "Artwork":
                         InitializeAsync("Art");
                         break;
                     case "Gaming":
                         InitializeAsync("Gaming");
-                        break; //This one is not finished
-
-
+                        break;
+                    case "Motivation":
+                        InitializeAsync("Motivation");
+                        break;
+                    case "Music":
+                        InitializeAsync("Music");
+                        break;
+                    case "Nature":
+                        InitializeAsync("nature wallpaper");
+                        break;
+                    case "Holiday":
+                        InitializeAsync("Holiday");
+                        break;
+                    case "Space":
+                        InitializeAsync("galaxy wallpaper");
+                        break;
+                    case "Tech":
+                        InitializeAsync("Tech");
+                        break;
+                    case "Lifestyle":
+                        InitializeAsync("Lifestyle");
+                        break;
+                    case "Food":
+                        InitializeAsync("Food");
+                        break;
+                    case "Cartoon":
+                        InitializeAsync("Cartoon");
+                        break;
                     default:
                         break;
                 }
             }
-
         }
-        class ImagesUrls
-        {
-            public string imageUrl { get; set;}
-        }
-
         private async void InitializeAsync(string query)//Should pass the query here
         {
-            List<ImageCollectionUrl> list = new List<ImageCollectionUrl>();
-            
+            int defineColumn = 1;
+            ApiLogic connect = new ApiLogic();      
+            List<ImagesCollectionUrl> ImageUrlPath = await connect.JsonConnection(query);
 
-            ApiLogic connect = new ApiLogic();
-            //List<string> imageUrls = new List<string>(await connect.JsonConnection(query).ConfigureAwait(true));
-
-            //DataContext = imageUrls;
-            //LoadPreviewImages(list);
-            ListBoxStackPanel2.ItemsSource = list;
+            foreach(ImagesCollectionUrl imageUrl in ImageUrlPath)
+            {
+                ListBoxStackPanel1.ItemsSource = ImageUrlPath;
+                if (defineColumn % 2 == 0)
+                {
+                    ListBoxStackPanel1.ItemsSource = ImageUrlPath;
+                    defineColumn++;
+                }
+                else
+                {
+                    //we may are going to need to use listview instead of image stack
+                    ListBoxStackPanel2.ItemsSource = ImageUrlPath;
+                    defineColumn++;
+                }
+            }
         }
-        class ImageCollectionUrl
+
+        class ImagesCollectionUrl
         {
-
-            public string ImageUrlPath { get; set; }
+            public required string ImageUrlPath { get; set; }
         }
 
-        //private void LoadPreviewImages(List<ImagesUrls> imageUrls)
-        //{
-        //    int defineColumn = 1;
-        //    foreach (var imageUrl in imageUrls)
-        //    {
-        //        // Create a new Image control
-        //        Image imageControl = new Image();
+        private void loadpreviewimages(List<ImagesCollectionUrl>ImageUrlPath)
+        {
+            int definecolumn = 1;
+            foreach (var imageUrl in ImageUrlPath)
+            {
+                // create a new image control
+                Image imagecontrol = new Image();
 
-        //        // Create a BitmapImage and set its UriSource to the image URL
-        //        BitmapImage bitmapImage = new BitmapImage();
-        //        bitmapImage.BeginInit();
-        //        //bitmapImage.UriSource = new Uri(imageUrl);
-        //        bitmapImage.UriSource = new Uri( ToString(imagesUrl.imageUrl));
-        //        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-        //        bitmapImage.EndInit();
+                // create a bitmapimage and set its urisource to the image url
+                BitmapImage bitmapimage = new BitmapImage();
+                bitmapimage.BeginInit();
+                //bitmapimage.urisource = new uri(imageurl);
+                bitmapimage.UriSource = new Uri(imageUrl.ImageUrlPath);
+                bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapimage.EndInit();
 
-        //        imageControl.Source = bitmapImage;
+                imagecontrol.Source = bitmapimage;
 
-        //        // Set the Image control's source to the BitmapImage
-        //        imageControl.Source = bitmapImage;
-        //        if (defineColumn % 2 == 0)
-        //        {
-        //            ListBoxStackPanel1.Items.Add(imageControl);
-        //            defineColumn++;
-        //        }
-        //        else
-        //        {
-        //            //We may are going to need to use listView instead of Image stack
-        //            ListBoxStackPanel2.Items.Add(imageControl);
-        //            defineColumn++;
-        //        }
-        //    }
-        //}
+                
+               
+                
+            }
+        }
 
         class ApiLogic
         {
-            public async Task<List<ImageCollectionUrl>> JsonConnection(string ourQuery)
+            public async Task<List<ImagesCollectionUrl>> JsonConnection(string ourQuery)
             {
                 PexelsApiCLient client = new PexelsApiCLient("R2uHSUSWSF7nmqxIl6Q0yAU0MjQCgtHpGCs56qChJn77SA5HCrudg4sr");
-                // await client.RetrieveJson();
+                 //await client.RetrieveJson();
 
                 ParseJson parseJson = new ParseJson();
                 parseJson.ExtractJsonData();
                 List<string> imageLinks = await client.RetrieveJson(ourQuery);
-                foreach (var imageLink in imageLinks)
-                {
-                    Console.WriteLine(imageLink);
-                }
-
-                return imageLinks.Select(link => new ImageCollectionUrl { ImageUrlPath = link }).ToList();
+                return imageLinks.Select(link => new ImagesCollectionUrl { ImageUrlPath = link }).ToList();
 
             }
         }
@@ -191,10 +196,8 @@ namespace wally
                             orientation: "landscape"); //The query can be whatever
 
                     // Convert the result to a JSON string and display it
-                    var jsonResult =
-                        Newtonsoft.Json.JsonConvert.SerializeObject(result, Newtonsoft.Json.Formatting.Indented);
-                    var filePath =
-                        @"C:\Users\User\RiderProjects\ConsoleApp2\ConsoleApp2\results.json"; //This should be for one group of wallpapers we got a lot more
+                    var jsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(result, Newtonsoft.Json.Formatting.Indented);
+                    var filePath = @"C:\Users\User\RiderProjects\ConsoleApp2\ConsoleApp2\results.json"; //This should be for one group of wallpapers we got a lot more
                     await File.WriteAllTextAsync(filePath, jsonResult);
                     Console.WriteLine("Saved data");
                     //Console.WriteLine(jsonResult);
@@ -242,12 +245,10 @@ namespace wally
                 // public string AvgColor { get; set; }
                 // public string Alt { get; set; }
             }
-
             public class RootObject
             {
                 public List<Photo> Photos { get; set; }
             }
-
             public static List<string> GetLandscapeUrls(string filePath)
             {
                 string json = File.ReadAllText(filePath);
@@ -267,10 +268,8 @@ namespace wally
 
                     }
                 }
-
                 return landscapeUrls;
             }
-
             public void ExtractJsonData()
             {
                 try

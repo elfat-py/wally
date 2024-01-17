@@ -209,7 +209,7 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border BorderBrush="Black" BorderThickness="1" Margin="5">
-                                        <Image Source="{Binding imageUrl}"/>
+                                        <Image Source="{Binding ImageUrlPath}" Width="340" Height="200" Stretch="UniformToFill"/>
                                     </Border>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -223,7 +223,7 @@
                                 <DataTemplate>
                                     <Border BorderBrush="Black" BorderThickness="1" Margin="5">
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="{Binding imageUrl}" Width="60" Height="40"  />
+                                            <Image Source="{Binding ImageUrlPath}"  Width="340" Height="200"  />
                                         </StackPanel>
                                         
                                     </Border>
