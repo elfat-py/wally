@@ -39,6 +39,15 @@ namespace wally
         private void ListBoxStackPanel2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ImagesCollectionUrl selectedImage = (ImagesCollectionUrl)ListBoxStackPanel2.SelectedItem;
+
+            if (ListBoxStackPanel2.SelectedItem != null)
+            {
+                //ImagesCollectionUrl selectedImage = (ImagesCollectionUrl)ListBoxStackPanel2.SelectedItem;
+
+                // Show options (replace this with your actual logic)
+                ShowOptions(selectedImage);
+            }
+            //ImagesCollectionUrl selectedImage = (ImagesCollectionUrl)ListBoxStackPanel2.SelectedItem;
             string imageUrl = selectedImage.ImageUrlPath;
 
 
@@ -46,6 +55,16 @@ namespace wally
             // Do something with the imageUrl, such as displaying additional information
             MessageBox.Show($"Selected Image URL: {imageUrl}");
 
+        }
+        private void ShowOptions(ImagesCollectionUrl selectedImage)
+        {
+            // Implement your logic here to show options based on the selected item
+            // For example, you can display a context menu or a custom dialog
+            // with download, set as wallpaper, get URL options.
+            // You can also use MessageBox or any other UI element.
+
+            // Example using MessageBox:
+            MessageBox.Show($"Options for {selectedImage.ImageUrlPath}:\n1. Download\n2. Set as Wallpaper\n3. Get URL");
         }
 
 
