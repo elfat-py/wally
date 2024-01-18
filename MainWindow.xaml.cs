@@ -1,6 +1,8 @@
 ﻿using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using PexelsDotNetSDK.Api;
 
@@ -35,51 +37,6 @@ namespace wally
                 }
             }
         }
-
-        private void ListBoxStackPanel2_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ImagesCollectionUrl selectedImage = (ImagesCollectionUrl)ListBoxStackPanel2.SelectedItem;
-
-            if (ListBoxStackPanel2.SelectedItem != null)
-            {
-                //ImagesCollectionUrl selectedImage = (ImagesCollectionUrl)ListBoxStackPanel2.SelectedItem;
-
-                // Show options (replace this with your actual logic)
-                ShowOptions(selectedImage);
-            }
-            //ImagesCollectionUrl selectedImage = (ImagesCollectionUrl)ListBoxStackPanel2.SelectedItem;
-            string imageUrl = selectedImage.ImageUrlPath;
-
-
-            SaveWallpaper(imageUrl);
-            // Do something with the imageUrl, such as displaying additional information
-            MessageBox.Show($"Selected Image URL: {imageUrl}");
-
-        }
-        private void ShowOptions(ImagesCollectionUrl selectedImage)
-        {
-            // Implement your logic here to show options based on the selected item
-            // For example, you can display a context menu or a custom dialog
-            // with download, set as wallpaper, get URL options.
-            // You can also use MessageBox or any other UI element.
-
-            // Example using MessageBox:
-            MessageBox.Show($"Options for {selectedImage.ImageUrlPath}:\n1. Download\n2. Set as Wallpaper\n3. Get URL");
-        }
-
-
-        private void SaveWallpaper(string imageUrl)
-        {
-            string directoryPath = @"C:\Users\User\source\repos\wally\Resources\SavedWallpapersWalli\";
-            Uri uri = new Uri(imageUrl);
-            string customFileName = "saved_success.jpg";
-            string fileName = Path.GetFileName(uri.LocalPath);
-            string fullPath = Path.Combine(directoryPath, customFileName);
-            using (System.Net.WebClient client = new System.Net.WebClient())
-            {
-                client.DownloadFile(imageUrl, fullPath);
-            }
-        }
         public class ImagesCollectionUrl
         {
             public string ImageUrlPath { get; set; }
@@ -105,12 +62,137 @@ namespace wally
             }
 
         }
+        private void ListBoxStackPanel2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ImagesCollectionUrl selectedImage = (ImagesCollectionUrl)ListBoxStackPanel2.SelectedItem;
+
+            if (ListBoxStackPanel2.SelectedItem != null)
+            {
+                ShowOptions(selectedImage);
+            }
+        }
+
+        private void ShowOptions(ImagesCollectionUrl selectedImage)
+        {
+            string urlPath = selectedImage.ImageUrlPath; //This is just the url address 
+            ContextMenu contextMenu = new ContextMenu();
+
+            MenuItem downloadMenuItem = new MenuItem();
+            downloadMenuItem.Header = "Download as Image";
+            downloadMenuItem.Icon = new Image
+            {
+                Source = new BitmapImage(new Uri(@"C:\Users\User\OneDrive\Desktop\IconForDisplaymentMenu\downloadIcon.png",
+                    UriKind.RelativeOrAbsolute))
+            };
+            downloadMenuItem.Click += (sender, e) => SaveWallpaper(urlPath);
+
+            MenuItem setWallpaperMenuItem = new MenuItem();
+            setWallpaperMenuItem.Header = "Set as Wallpaper";
+            setWallpaperMenuItem.Icon = new Image
+            {
+                Source = new BitmapImage(new Uri(@"C:\Users\User\OneDrive\Desktop\IconForDisplaymentMenu\setWallpaper.png",
+                    UriKind.RelativeOrAbsolute))
+            };
+            setWallpaperMenuItem.Click += (sender, e) => SaveAndSetWallpaper(urlPath);
+
+            MenuItem reviewMenuItem = new MenuItem();//Here should be an option to e-mail us the problem the user might be having or if he likes the app
+            reviewMenuItem.Header = "Review";
+            reviewMenuItem.Icon = new Image
+            {
+                Source = new BitmapImage(new Uri(@"C:\Users\User\OneDrive\Desktop\IconForDisplaymentMenu\review.png",
+                    UriKind.RelativeOrAbsolute))
+            };
+            //reviewMenuItem.Click += (sender, e) => ReviewImage(selectedImage);
+
+            contextMenu.Items.Add(downloadMenuItem);
+            contextMenu.Items.Add(setWallpaperMenuItem);
+            contextMenu.Items.Add(reviewMenuItem);
+
+            // Attach the context menu to the ListBox or any UI element you want
+            ListBoxStackPanel2.ContextMenu = contextMenu;
+        }
+
+        private int NumberIdGenerator()
+        {
+            Random random = new Random();
+            return random.Next(1, 99999);
+        }
+        private string SaveWallpaper(string imageUrl)
+        {
+            int numberOfWalli = NumberIdGenerator(); //This one doesn't work will need something more standard
+            string directoryPath = @"C:\Users\User\source\repos\wally\Resources\SavedWallpapersWalli";
+            string customFileName = $"walli{numberOfWalli}.jpg";
+            string fullPath = System.IO.Path.Combine(directoryPath, customFileName);
+            using (System.Net.WebClient client = new System.Net.WebClient())
+            {
+                try
+                {
+                    client.DownloadFile(imageUrl, fullPath);
+                    // Return the full path after successfully downloading the image
+                    return fullPath;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"There was a problem downloading the image: {e}");
+
+                    return null;
+                }
+            }
+        }
+
+        private void SaveAndSetWallpaper(string imageUrl)
+        {
+            string walliPath = SaveWallpaper(imageUrl);
+            if (walliPath != null)
+            {
+                WallpaperSetter setter = new WallpaperSetter();
+                setter.SetWallpaper(walliPath);
+                MessageBox.Show("Wallpaper set successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Wallpaper couldn't be set!!", "Failed", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+
+        }
+
+        public class WallpaperSetter
+        {
+            // Import the SystemParametersInfo function
+            [DllImport("user32.dll", CharSet = CharSet.Auto)]
+            private static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+
+            // Define the constants for SystemParametersInfo
+            private const int SPI_SETDESKWALLPAPER = 0x0014;
+            private const int SPIF_UPDATEINIFILE = 0x01;
+            private const int SPIF_SENDCHANGE = 0x02;
+
+            // Method to set the wallpaper
+            public void SetWallpaper(string imagePath)
+            {
+                // Check if the file exists
+                if (!System.IO.File.Exists(imagePath))
+                {
+                    MessageBox.Show($"Image file not found: {imagePath}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Set the wallpaper
+                int result = SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, imagePath, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
+
+                // Check the result
+                if (result == 0)
+                {
+                    MessageBox.Show("Failed to set wallpaper", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
 
         private void ListBoxLibrary_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ListBoxLibrary.SelectedItem != null)
             {
-                // Get the selected item
                 ListBoxItem selectedItem = (ListBoxItem)ListBoxLibrary.SelectedItem;
 
                 // Perform action based on the selected item
@@ -160,15 +242,6 @@ namespace wally
                 }
             }
         }
-        
-
-        //class ImagesCollectionUrl
-        //{
-        //    public string ImageUrlPath { get; set; }
-        //}
-
-        
-
         class ApiLogic
         {
             public async Task<List<ImagesCollectionUrl>> JsonConnection(string ourQuery)
@@ -203,7 +276,6 @@ namespace wally
 
             public async Task<List<string>> RetrieveJson(string query) //Here we should also pass the query
             {
-
                 try
                 {
                     var resultCuratedPhotos =
@@ -322,5 +394,4 @@ namespace wally
             }
         }
     }
-    
 }
