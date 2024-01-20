@@ -25,7 +25,7 @@
                 <ColumnDefinition Width="75*"/>
             </Grid.ColumnDefinitions>
             <Rectangle Grid.Column="0" Fill="#85C7DE"/>
-            <Rectangle Grid.Column="1" Fill="#CFE8EF"/>
+            <Rectangle Grid.Column="1" Fill="#85C7DE"/>
 
             <StackPanel Grid.Column="0" Orientation="Horizontal">
                 <RadioButton Content="Library" FontSize="18" FontStretch="Expanded" FontWeight="UltraLight"  Width="180" GroupName="UserOptions" Checked="RadioButton_Checked"/>
@@ -62,8 +62,8 @@
                 <ColumnDefinition Width="25*"/>
                 <ColumnDefinition Width="75*"/>
             </Grid.ColumnDefinitions>
-        
-        <Rectangle Grid.Column="0" Fill="LightSeaGreen"/>
+
+            <Rectangle Grid.Column="0" Fill="#C6DBF0"/>
            
             <StackPanel Grid.Column="0" VerticalAlignment="Stretch">
                 <!--This one should change based on the radio button-->
@@ -335,6 +335,7 @@
             </StackPanel>
 
             <ScrollViewer
+                Background="#CFE8EF"
                 Grid.Column="1"
                 VerticalScrollBarVisibility="Auto"
                 CanContentScroll="True"
@@ -348,11 +349,11 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <!-- StackPanel 1 -->
-                    <Border Grid.Column="1" BorderBrush="#CFE8EF" BorderThickness="1" Margin="5">
-                        <ListBox Name="ListBoxStackPanel1" SelectionMode="Single" HorizontalContentAlignment="Center" >
+                    <Border Grid.Column="1" BorderBrush="#CFE8EF" BorderThickness="1.5" Margin="5">
+                        <ListBox Name="ListBoxStackPanel1" SelectionMode="Single" HorizontalContentAlignment="Center" SelectionChanged="ListBoxStackPanel1_SelectionChanged">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Border BorderBrush="Black" BorderThickness="1" Margin="5">
+                                    <Border BorderBrush="#C6DBF0" BorderThickness="1" Margin="5">
                                         <Image Source="{Binding ImageUrlPath}" Width="400" Height="209" Stretch="UniformToFill"/>
                                     </Border>
                                 </DataTemplate>
@@ -361,11 +362,11 @@
                     </Border>
 
                     <!-- StackPanel 2 -->
-                    <Border Grid.Column="0" BorderBrush="Green" BorderThickness="1" Margin="5">
+                    <Border Grid.Column="0" BorderBrush="#CFE8EF" BorderThickness="1.5" Margin="5">
                         <ListBox Name="ListBoxStackPanel2" SelectionMode="Single" HorizontalContentAlignment="Center" SelectionChanged="ListBoxStackPanel2_SelectionChanged">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Border BorderBrush="Black" BorderThickness="1" Margin="5">
+                                    <Border BorderBrush="#C6DBF0" BorderThickness="1" Margin="5">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="{Binding ImageUrlPath}"  Width="400" Height="209"  Stretch="Uniform"/>
                                         </StackPanel>
@@ -378,6 +379,6 @@
             </ScrollViewer>
         </Grid>
 
-        <TextBlock Grid.Row="2" Text="Footer Content" Background="#AED1E6"/>
+        <TextBlock Grid.Row="2" Text="Footer Content" Background="#C6DBF0"/>
     </Grid>
 </Window>

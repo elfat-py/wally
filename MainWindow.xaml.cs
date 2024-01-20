@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using PexelsDotNetSDK.Api;
+using static wally.MainWindow;
 
 namespace wally
 {
@@ -13,35 +14,58 @@ namespace wally
         public MainWindow()
         {
             InitializeComponent();
-            InitializeAsync("HD Wallpapers");
+            InitializeAsync("HD Wallpapers", "Cool Wallpapers");
         }
-        private async void InitializeAsync(string query)//Should pass the query here
+        
+        private async void InitializeAsync(string query1, string query2)//I think we should pass two query here
         {
-            int defineColumn = 1;
-            ApiLogic connect = new ApiLogic();
-            List<ImagesCollectionUrl> ImageUrlPath = await connect.JsonConnection(query);
+            string fileName1 = @"C:\Users\User\RiderProjects\ConsoleApp2\ConsoleApp2\results.json";
+            string fileName2 = @"C:\Users\User\RiderProjects\ConsoleApp2\ConsoleApp2\results1.json";
 
-            foreach (ImagesCollectionUrl imageUrl in ImageUrlPath)
+            
+            ApiLogic connect = new ApiLogic();
+
+            try
             {
-                ListBoxStackPanel1.ItemsSource = ImageUrlPath;
-                if (defineColumn % 2 == 0)
-                {
-                    ListBoxStackPanel1.ItemsSource = ImageUrlPath;
-                    defineColumn++;
-                }
-                else
-                {
-                    //we may are going to need to use listview instead of image stack
-                    ListBoxStackPanel2.ItemsSource = ImageUrlPath;
-                    defineColumn++;
-                }
+                List<ImagesCollectionUrl1> ImageUrlPath1 = await connect.JsonConnection1(query1);
+                List<ImagesCollectionUrl2> ImageUrlPath2 = await connect.JsonConnection2(query2);
+
+                // Update your UI using the results, assuming ListBoxStackPanel1 and ListBoxStackPanel2 are your UI elements
+                ListBoxStackPanel1.ItemsSource = ImageUrlPath1; //These one seem alright
+                ListBoxStackPanel2.ItemsSource = ImageUrlPath2;
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            //List<ImagesCollectionUrl> ImageUrlPath = await connect.JsonConnection(query);
+
+            //foreach (ImagesCollectionUrl imageUrl in ImageUrlPath)
+            //{
+            //    ListBoxStackPanel1.ItemsSource = ImageUrlPath;
+            //    if (defineColumn % 2 == 0)
+            //    {
+            //        ListBoxStackPanel1.ItemsSource = ImageUrlPath;
+            //        defineColumn++;
+            //    }
+            //    else
+            //    {
+            //        //we may are going to need to use listview instead of image stack
+            //        ListBoxStackPanel2.ItemsSource = ImageUrlPath;
+            //        defineColumn++;
+            //    }
+            //}
         }
-        public class ImagesCollectionUrl
+
+        public class ImagesCollectionUrl2
         {
             public string ImageUrlPath { get; set; }
         }
 
+        public class ImagesCollectionUrl1
+        {
+            public string ImageUrlPath { get; set; }
+        }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -60,19 +84,26 @@ namespace wally
             {
                 ListBoxStore.Visibility = Visibility.Visible;
             }
-
         }
         private void ListBoxStackPanel2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ImagesCollectionUrl selectedImage = (ImagesCollectionUrl)ListBoxStackPanel2.SelectedItem;
+            ImagesCollectionUrl2 selectedImage = (ImagesCollectionUrl2)ListBoxStackPanel2.SelectedItem;
 
             if (ListBoxStackPanel2.SelectedItem != null)
             {
-                ShowOptions(selectedImage);
+                ShowOptions2(selectedImage);
             }
         }
+        private void ListBoxStackPanel1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ImagesCollectionUrl1 selectedImage = (ImagesCollectionUrl1)ListBoxStackPanel1.SelectedItem;
 
-        private void ShowOptions(ImagesCollectionUrl selectedImage)
+            if (ListBoxStackPanel1.SelectedItem != null)
+            {
+                ShowOptions1(selectedImage);
+            }
+        }
+        private void ShowOptions2(ImagesCollectionUrl2 selectedImage)
         {
             string urlPath = selectedImage.ImageUrlPath; //This is just the url address 
             ContextMenu contextMenu = new ContextMenu();
@@ -112,11 +143,50 @@ namespace wally
             ListBoxStackPanel2.ContextMenu = contextMenu;
         }
 
+        private void ShowOptions1(ImagesCollectionUrl1 selectedImage)
+        {
+            string urlPath = selectedImage.ImageUrlPath; 
+            ContextMenu contextMenu = new ContextMenu();
+
+            MenuItem downloadMenuItem = new MenuItem();
+            downloadMenuItem.Header = "Download as Image";
+            downloadMenuItem.Icon = new Image
+            {
+                Source = new BitmapImage(new Uri(@"C:\Users\User\OneDrive\Desktop\IconForDisplaymentMenu\downloadIcon.png",
+                    UriKind.RelativeOrAbsolute))
+            };
+            downloadMenuItem.Click += (sender, e) => SaveWallpaper(urlPath);
+
+            MenuItem setWallpaperMenuItem = new MenuItem();
+            setWallpaperMenuItem.Header = "Set as Wallpaper";
+            setWallpaperMenuItem.Icon = new Image
+            {
+                Source = new BitmapImage(new Uri(@"C:\Users\User\OneDrive\Desktop\IconForDisplaymentMenu\setWallpaper.png",
+                    UriKind.RelativeOrAbsolute))
+            };
+            setWallpaperMenuItem.Click += (sender, e) => SaveAndSetWallpaper(urlPath);
+
+            MenuItem reviewMenuItem = new MenuItem();//Here should be an option to e-mail us the problem the user might be having or if he likes the app
+            reviewMenuItem.Header = "Review";
+            reviewMenuItem.Icon = new Image
+            {
+                Source = new BitmapImage(new Uri(@"C:\Users\User\OneDrive\Desktop\IconForDisplaymentMenu\review.png",
+                    UriKind.RelativeOrAbsolute))
+            };
+
+            contextMenu.Items.Add(downloadMenuItem);
+            contextMenu.Items.Add(setWallpaperMenuItem);
+            contextMenu.Items.Add(reviewMenuItem);
+
+            ListBoxStackPanel1.ContextMenu = contextMenu;
+        }
+
         private int NumberIdGenerator()
         {
             Random random = new Random();
             return random.Next(1, 99999);
         }
+
         private string SaveWallpaper(string imageUrl)
         {
             int numberOfWalli = NumberIdGenerator(); //This one doesn't work will need something more standard
@@ -153,8 +223,6 @@ namespace wally
             {
                 MessageBox.Show("Wallpaper couldn't be set!!", "Failed", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-
-
         }
 
         public class WallpaperSetter
@@ -168,20 +236,14 @@ namespace wally
             private const int SPIF_UPDATEINIFILE = 0x01;
             private const int SPIF_SENDCHANGE = 0x02;
 
-            // Method to set the wallpaper
             public void SetWallpaper(string imagePath)
             {
-                // Check if the file exists
                 if (!System.IO.File.Exists(imagePath))
                 {
                     MessageBox.Show($"Image file not found: {imagePath}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
-
-                // Set the wallpaper
                 int result = SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, imagePath, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
-
-                // Check the result
                 if (result == 0)
                 {
                     MessageBox.Show("Failed to set wallpaper", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -195,65 +257,104 @@ namespace wally
             {
                 ListBoxItem selectedItem = (ListBoxItem)ListBoxLibrary.SelectedItem;
 
-                // Perform action based on the selected item
+                // Should find a better way of searching probably
                 switch (selectedItem.Name)
                 {
                     case "All":
-                        InitializeAsync("HD Wallpapers");
+                        InitializeAsync("HD Wallpapers", "PC Wallpapers");
                         break;
                     case "Animals":                       
-                        InitializeAsync("Animals");
+                        InitializeAsync("Animals", "Cute Animals");
                         break;
                     case "Artwork":
-                        InitializeAsync("Art");
+                        InitializeAsync("Art", "Abstract Art Backgrounds");
                         break;
                     case "Gaming":
-                        InitializeAsync("Gaming");
+                        InitializeAsync("Video Games", "Gaming wallpapers"); //Some problem here
                         break;
                     case "Motivation":
-                        InitializeAsync("Motivation");
+                        InitializeAsync("Motivation", "Inspiration");
                         break;
                     case "Music":
-                        InitializeAsync("Music");
+                        InitializeAsync("Music","Mood");
                         break;
                     case "Nature":
-                        InitializeAsync("nature wallpaper");
+                        InitializeAsync("nature wallpaper", "Scenic Views Wallpaper");
                         break;
                     case "Holiday":
-                        InitializeAsync("Holiday");
+                        InitializeAsync("Holiday", "Adventure is Out There"); //There seems to be some problem here as well
                         break;
                     case "Space":
-                        InitializeAsync("galaxy wallpaper");
+                        InitializeAsync("galaxy wallpaper", "Space Wallpapers");
                         break;
                     case "Tech":
-                        InitializeAsync("Tech");
+                        InitializeAsync("Tech", "Inventions");
                         break;
                     case "Lifestyle":
-                        InitializeAsync("Lifestyle");
+                        InitializeAsync("Lifestyle", "Into The Woods");
                         break;
                     case "Food":
-                        InitializeAsync("Food");
+                        InitializeAsync("Food", "Drinks");
                         break;
-                    case "Cartoon":
-                        InitializeAsync("Cartoon");
+                    case "Anime":
+                        InitializeAsync("Cartoon", "Animation");
+                        break;
+                    case "Cars":
+                        InitializeAsync("Cars wallpaper", "Super Car 4k Wallpaper");
+                        break;
+                    case "Weather":
+                        InitializeAsync("Weather", "Weather Landscapes"); 
                         break;
                     default:
+                        MessageBox.Show("There seems to be some problem check your internet!", caption: "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                 }
             }
         }
         class ApiLogic
         {
-            public async Task<List<ImagesCollectionUrl>> JsonConnection(string ourQuery)
+            public async Task<List<ImagesCollectionUrl1>> JsonConnection1(string ourQuery)
             {
                 PexelsApiCLient client = new PexelsApiCLient("R2uHSUSWSF7nmqxIl6Q0yAU0MjQCgtHpGCs56qChJn77SA5HCrudg4sr");
-                 //await client.RetrieveJson();
-
+                //await client.RetrieveJson();
                 ParseJson parseJson = new ParseJson();
-                parseJson.ExtractJsonData();
-                List<string> imageLinks = await client.RetrieveJson(ourQuery);
-                return imageLinks.Select(link => new ImagesCollectionUrl { ImageUrlPath = link }).ToList();
+                string firstFilePath = @"C:\Users\User\RiderProjects\ConsoleApp2\ConsoleApp2\results.json";
+                //string secFilePath = @"C:\Users\User\RiderProjects\ConsoleApp2\ConsoleApp2\results1.json";
 
+                try
+                {
+                    parseJson.ExtractJsonData(firstFilePath);
+                    //parseJson.ExtractJsonData(secFilePath);
+
+                    List<string> imageLinks = await client.RetrieveJson(ourQuery, firstFilePath);
+                    return imageLinks.Select(link => new ImagesCollectionUrl1 { ImageUrlPath = link }).ToList();
+
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return new List<ImagesCollectionUrl1>();
+                }
+                
+            }
+            public async Task<List<ImagesCollectionUrl2>> JsonConnection2(string ourQuery)
+            {
+                PexelsApiCLient client = new PexelsApiCLient("R2uHSUSWSF7nmqxIl6Q0yAU0MjQCgtHpGCs56qChJn77SA5HCrudg4sr");
+                ParseJson parseJson = new ParseJson();
+                string secFilePath = @"C:\Users\User\RiderProjects\ConsoleApp2\ConsoleApp2\results1.json";
+
+                try
+                {
+                    parseJson.ExtractJsonData(secFilePath);
+                    List<string> imageLinks = await client.RetrieveJson(ourQuery, secFilePath);
+                    return imageLinks.Select(link => new ImagesCollectionUrl2 { ImageUrlPath = link }).ToList();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return new List<ImagesCollectionUrl2>();
+                }
             }
         }
 
@@ -268,35 +369,31 @@ namespace wally
                 {
                     throw new ArgumentException("The api key is empty");
                 }
-
                 this.APIkey = APIkey;
                 this.pexelsClient = new PexelsClient(APIkey);
 
             }
 
-            public async Task<List<string>> RetrieveJson(string query) //Here we should also pass the query
+            public async Task<List<string>> RetrieveJson(string query, string filePath) //Here we should also pass the query
             {
                 try
                 {
-                    var resultCuratedPhotos =
-                        await pexelsClient
-                            .CuratedPhotosAsync(pageSize: 5); //This is supposed to get us back professional photos only
+                    var resultCuratedPhotos = await pexelsClient.CuratedPhotosAsync(pageSize: 5); //This is supposed to get us back professional photos only
 
-                    var result =
-                        await pexelsClient.SearchPhotosAsync(query: query,
-                            orientation: "landscape"); //The query can be whatever
+                    var result = await pexelsClient.SearchPhotosAsync(query: query, orientation: "landscape"); //The query can be whatever
 
                     // Convert the result to a JSON string and display it
                     var jsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(result, Newtonsoft.Json.Formatting.Indented);
-                    var filePath = @"C:\Users\User\RiderProjects\ConsoleApp2\ConsoleApp2\results.json"; //This should be for one group of wallpapers we got a lot more
+                    //var filePath = @"C:\Users\User\RiderProjects\ConsoleApp2\ConsoleApp2\results.json"; //This should be for one group of wallpapers we got a lot more
                     await File.WriteAllTextAsync(filePath, jsonResult);
-                    Console.WriteLine("Saved data");
-                    //Console.WriteLine(jsonResult);
+                    Console.WriteLine($"Saved data {filePath}");
+                    
                     return ParseJson.GetLandscapeUrls(filePath);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error: {ex.Message}");
+                    MessageBox.Show(ex.Message, caption:"Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                   
                     return new List<string>();
                 }
             }
@@ -304,8 +401,6 @@ namespace wally
 
         public class ParseJson
         {
-            string filePath = @"C:\Users\User\RiderProjects\ConsoleApp2\ConsoleApp2\results.json";
-
             public class Src
             {
                 public string Original { get; set; }
@@ -336,10 +431,12 @@ namespace wally
                 // public string AvgColor { get; set; }
                 // public string Alt { get; set; }
             }
+
             public class RootObject
             {
                 public List<Photo> Photos { get; set; }
             }
+
             public static List<string> GetLandscapeUrls(string filePath)
             {
                 string json = File.ReadAllText(filePath);
@@ -361,7 +458,8 @@ namespace wally
                 }
                 return landscapeUrls;
             }
-            public void ExtractJsonData()
+
+            public void ExtractJsonData(string filePath)
             {
                 try
                 {
@@ -388,10 +486,11 @@ namespace wally
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    MessageBox.Show(e.Message, "Error extracting data!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    //Console.WriteLine(e);
                     throw;
                 }
             }
-        }
+        }  
     }
 }
