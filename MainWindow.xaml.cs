@@ -149,7 +149,7 @@ namespace wally
             ContextMenu contextMenu = new ContextMenu();
 
             MenuItem downloadMenuItem = new MenuItem();
-            downloadMenuItem.Header = "Download as Image";
+            downloadMenuItem.Header = "Download as Image"; 
             downloadMenuItem.Icon = new Image
             {
                 Source = new BitmapImage(new Uri(@"C:\Users\User\OneDrive\Desktop\IconForDisplaymentMenu\downloadIcon.png",
@@ -316,15 +316,12 @@ namespace wally
             public async Task<List<ImagesCollectionUrl1>> JsonConnection1(string ourQuery)
             {
                 PexelsApiCLient client = new PexelsApiCLient("R2uHSUSWSF7nmqxIl6Q0yAU0MjQCgtHpGCs56qChJn77SA5HCrudg4sr");
-                //await client.RetrieveJson();
                 ParseJson parseJson = new ParseJson();
                 string firstFilePath = @"C:\Users\User\RiderProjects\ConsoleApp2\ConsoleApp2\results.json";
-                //string secFilePath = @"C:\Users\User\RiderProjects\ConsoleApp2\ConsoleApp2\results1.json";
 
                 try
                 {
                     parseJson.ExtractJsonData(firstFilePath);
-                    //parseJson.ExtractJsonData(secFilePath);
 
                     List<string> imageLinks = await client.RetrieveJson(ourQuery, firstFilePath);
                     return imageLinks.Select(link => new ImagesCollectionUrl1 { ImageUrlPath = link }).ToList();
