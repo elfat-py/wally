@@ -488,6 +488,19 @@ namespace wally
                     throw;
                 }
             }
-        }  
+        }
+        private void SearchButtonClick(object sender, RoutedEventArgs e)
+        {
+            string searchBoxQuery = SearchTextBox.Text; 
+            string addedPart = " new wallpapers"; //Temprorary solution
+            string searchBoxQuery2 = string.Concat(searchBoxQuery, addedPart);
+            InitializeAsync(searchBoxQuery, searchBoxQuery2);
+        }
+
+        private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SearchTextBox.Text = string.Empty;
+
+        }
     }
 }
