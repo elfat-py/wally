@@ -24,8 +24,8 @@
                 <ColumnDefinition Width="25*"/>
                 <ColumnDefinition Width="75*"/>
             </Grid.ColumnDefinitions>
-            <Rectangle Grid.Column="0" Fill="#85C7DE"/>
-            <Rectangle Grid.Column="1" Fill="#85C7DE"/>
+            <Rectangle Grid.Column="0" Fill="#85C7DE" HorizontalAlignment="Stretch"/>
+            <Rectangle Grid.Column="1" Fill="Black" HorizontalAlignment="Center"/>
 
             <StackPanel Grid.Column="0" Orientation="Horizontal">
                 <RadioButton Content="Library" FontSize="18" FontStretch="Expanded" FontWeight="UltraLight"  Width="180" GroupName="UserOptions" Checked="RadioButton_Checked"/>
@@ -40,17 +40,26 @@
                         <ColumnDefinition Width="*" />
                         <!-- Right column for radio buttons -->
                     </Grid.ColumnDefinitions>
+                    
+                    <Grid Grid.Column="0" Background="#AED1E6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
 
-                    <!-- Left column for the search box -->
-                    <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <TextBox Text="Search" Width="200"   />
-                    </StackPanel>
+                        <StackPanel Grid.Column="0" Orientation="Horizontal"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="120, 5, 150, 5">
+                            <Border BorderBrush="#85C7DE" BorderThickness="3" CornerRadius="30">
+                                <TextBox x:Name="SearchTextBox" Text="Search" Width="120" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="30"  GotFocus="SearchTextBox_GotFocus"/>
+                            </Border>
+                            <Button Content="Search" Height="20" Width="60" Click="SearchButtonClick"/>
+                        </StackPanel>
 
-                    <!-- Right column for radio buttons -->
-                    <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <RadioButton Content="Option 1" Margin="5" />
-                        <RadioButton Content="Option 2" Margin="5" />
-                    </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Background="#AED1E6" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="170, 5, 500, 5">
+                            <RadioButton Content="Option 1" Margin="10" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+                            <RadioButton Content="Option 2" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
+                        
+                    </Grid>
                 </Grid>
             </StackPanel>
         </Grid>
