@@ -1,9 +1,13 @@
 # 🎨**_Wallii_**:  ## _Your Ultimate Desktop Wallpaper Companion_✨	
 
+
 __Wallii is a feature-rich Windows desktop application designed to elevate your desktop customization experience.
 Immerse yourself in a vast collection of high-quality, free wallpapers, curated to suit every taste and style.
 With its sleek design, user-friendly interface, and stellar performance, Wallii transforms the way you interact 
 with your desktop background.__
+
+## 📸 First look
+![firstllook](https://github.com/elfat-py/wally/assets/104862141/1d8496e7-ff22-4ff7-a539-128c6d419140)
 
 
 - ## 💰 **Rich Desktop Experience:**
@@ -23,6 +27,22 @@ with your desktop background.__
 
 - ## ⭐ **MVVM Architecture:**
 1. In progress! Transitioning to the MVVM (Model-View-ViewModel) architecture for a more modular and maintainable project structure.
+
+## Using search option
+![usingsearch option](https://github.com/elfat-py/wally/assets/104862141/8773db5a-c1e9-403e-9043-39e7758180aa)
+
+## Selection from list 
+![selecting](https://github.com/elfat-py/wally/assets/104862141/83e43caf-8b04-4e6b-816c-d2b0707cd5a3)
+
+## Choosing prefered background
+![selectingbackground](https://github.com/elfat-py/wally/assets/104862141/4964596d-db8e-4353-93e5-d8aa8aebb8af)
+
+## Setting desktop background
+![settingwallpaper](https://github.com/elfat-py/wally/assets/104862141/0e93f3f3-db96-4eca-91b1-48098e1c5f9d)
+
+## Checking result
+![check](https://github.com/elfat-py/wally/assets/104862141/3630149e-e40e-4b32-9f50-ffe9f5167a7d)
+
 
 
 ## 🔨 **Advanced Features: (To be done)**
